@@ -1,0 +1,406 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap");
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+body,
+html {
+  line-height: 1;
+  font-family: "Montserrat", sans-serif;
+  overflow-x: hidden;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+.modal {
+  background: rgba(0, 0, 0, 0.4588235294);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+.modal.open {
+  display: flex;
+}
+.modal .modal-content {
+  position: fixed;
+  width: 800px;
+  margin: auto;
+  display: block;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  padding: 40px;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+.modal .modal-content button.close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #e01e5a;
+  border: 0;
+  font-size: 26px;
+  color: #fff;
+  border-radius: 4px;
+  border-top-right-radius: 0;
+}
+.modal .modal-content form .form-group {
+  width: 100%;
+}
+.modal .modal-content form .form-group input {
+  margin-bottom: 0px;
+}
+
+.painel {
+  width: 75%;
+  padding: 40px;
+}
+
+form.form-loading button[type=submit] {
+  display: none;
+}
+form.form-loading .spinner-loading {
+  display: block;
+}
+form .spinner-loading {
+  display: none;
+}
+form .spinner-loading img {
+  width: 120px;
+  height: 40px;
+  margin: 0px auto;
+  display: block;
+}
+
+main {
+  width: 100%;
+}
+main .page-app {
+  display: none;
+}
+main .page-app#login {
+  display: block;
+  margin: 100px auto;
+}
+main .page-app#login form {
+  margin: 10px auto;
+  width: 100%;
+  display: none;
+}
+main .page-app#login form.active {
+  display: block;
+}
+main .page-app#login form .just-validate-error-label {
+  font-size: 13px;
+  font-weight: 500;
+  padding: 4px 0;
+}
+main .page-app#login ul {
+  width: 100%;
+  display: flex;
+  gap: 10px;
+}
+main .page-app#login ul li button {
+  border: none;
+  padding-bottom: 5px;
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: 600;
+  background-color: transparent;
+}
+main .page-app#login ul li button.active {
+  border-bottom: 2px solid #36c5f0;
+}
+main .page-app#dashboard .usuarioPainel {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+main .page-app#dashboard .usuarioPainel img {
+  width: 90px;
+  height: 90px;
+  border-radius: 100%;
+}
+main .page-app#dashboard .usuarioPainel p {
+  font-size: 18px;
+  color: #fff;
+}
+main .page-app form input {
+  margin-bottom: 10px;
+}
+main nav {
+  height: 100vh;
+  background: #e01e5a;
+  padding: 40px 10px 10px;
+  position: relative;
+}
+main nav button.btn-sair {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  display: inline-block;
+  background: #ecb22e;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  padding: 10px 20px;
+  text-transform: uppercase;
+  font-size: 11px;
+  border-radius: 6px;
+}
+main nav button.btn-sair i {
+  padding-right: 10px;
+}
+main nav h1 {
+  color: #fff;
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid #fff;
+}
+main nav ul li {
+  padding: 10px;
+}
+main nav ul li a {
+  color: #fff;
+  font-size: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+main nav ul li a:hover {
+  color: #fff;
+}
+main #sec-contas {
+  display: none;
+  flex-wrap: wrap;
+  width: 100%;
+}
+main #sec-contas #tableContas {
+  width: 100%;
+}
+main table {
+  margin: 0px 0 40px;
+}
+main table thead tr td {
+  font-weight: 800;
+  font-style: italic;
+}
+main table tr {
+  border-bottom: 1px solid #c1c1c1;
+}
+main table tr.status_2 {
+  background: rgba(224, 30, 90, 0.0941176471);
+}
+main table tr.status_1 {
+  background: rgba(236, 178, 46, 0.0941176471);
+}
+main table tr td {
+  padding: 10px;
+  font-weight: 500;
+}
+main table tr td.status-vencida {
+  color: #e01e5a;
+}
+main table tr td button {
+  background-color: transparent;
+  border: none;
+}
+main table tr td button.btn-delete {
+  color: #e01e5a;
+}
+main table tr td button.btn-edit {
+  color: #ecb22e;
+}
+main form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 30px 0;
+  width: 100%;
+  margin: 0%;
+}
+main form .form-group {
+  display: block;
+  width: calc(50% - 5px);
+}
+main form .form-group-full {
+  width: 100%;
+}
+main form input {
+  width: 100%;
+  padding: 10px 0;
+  border-radius: 4px;
+  border: 1px solid #c1c1c1;
+  text-indent: 10px;
+}
+main form button {
+  background-color: #2eb67d;
+  padding: 10px;
+  color: #fff;
+  font-weight: 600;
+  border: none;
+  border-radius: 4px;
+  width: 100%;
+  text-transform: uppercase;
+  text-transform: uppercase;
+}
+main form.form-login {
+  border: 1px solid #c1c1c1;
+  border-radius: 12px;
+  padding: 20px;
+}
+main form.form-login h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+main form.form-login .form-group {
+  width: 100%;
+}
+
+p#valor-total {
+  padding: 20px;
+  background-color: red;
+  color: #fff;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}/*# sourceMappingURL=main.css.map */

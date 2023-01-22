@@ -1,0 +1,7 @@
+node_modules
+assets/img/
+assets/css/main.scss
+assets/css/responsive.scss
+assets/css/main.css.map
+assets/css/responsive.css.map
+assets/js/gtranslate.js

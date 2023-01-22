@@ -1,0 +1,20 @@
+[
+    {
+        "usuario": "usuario 1",
+        "nomeUsuario": "nome 1",
+        "emailUsuario": "victor.medeiros@agenciadezessete.com",
+        "senha": "12345678r"
+    },
+    {
+        "usuario": "usuario 2",
+        "nomeUsuario": "nome 2",
+        "emailUsuario": "devictormedeiros@gmail.com",
+        "senha": "abcd"
+    },
+    {
+        "usuario": "victorpicolo",
+        "nomeUsuario": "victor",
+        "emailUsuario": "victor@gmail.com",
+        "senha": "Victor@19997!"
+    }
+]
