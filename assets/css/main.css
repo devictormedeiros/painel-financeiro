@@ -413,4 +413,18 @@ p#valor-total {
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
+}
+
+@media screen and (max-width: 600px) {
+  main #sec-contas {
+    overflow-x: scroll;
+  }
+  .painel {
+    width: 100%;
+    padding: 15px;
+  }
+  main table thead tr td {
+    font-size: 14px;
+    padding: 4px;
+  }
 }/*# sourceMappingURL=main.css.map */
