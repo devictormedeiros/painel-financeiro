@@ -38,6 +38,7 @@ class Conta {
     return this.taxaDeJuros();
   }
   get getStatusVencimento() {
+
     return this.statusVencimento();
   }
   get getFormatarDataVencimento() {
@@ -129,7 +130,7 @@ function renderizarHtml(arrayContas) {
       default:
         console.log('Ocorreu um erro');
     }
-    itemHtml.innerHTML = `<td> ${conta.nome}</td><td> R$${conta.valor} </td><td> ${conta.getFormatarDataVencimento} </td><td> ${conta.taxa}% </td><td> R$${conta.getValorJuros} </td><td class="${statusVencimento == 2 ? 'status-vencida' : ''}"> ${mensagemVencimento}</td><td><button class="btn-finalizar" title="Pagar" onClick="finalizarConta(${conta.id})" data-id="${conta.id}" class="btn-cadastro"><i class="fa-solid fa-check"></i></button><button class="btn-delete" onClick="excluirConta(${conta.id})" data-id="${conta.id}" title="Excluir" class="btn-cadastro"><i class="fa-solid fa-trash"></i></button></td>`; // cria um HTML ja com os dados impressos
+    itemHtml.innerHTML = `<td> ${conta.nome}</td><td> R$${conta.valor} </td><td> ${conta.getFormatarDataVencimento} </td><td> ${conta.taxa}% </td><td> R$${conta.getValorJuros} </td><td class="${statusVencimento == 2 ? 'status-vencida' : ''}"> ${mensagemVencimento}</td><td><button class="btn-finalizar" title="Pagar" onClick="finalizarConta(${conta.id})" data-id="${conta.id}" class="btn-cadastro"><i class="fa-solid fa-check"></i></button><button class="btn-delete" onClick="finalizarConta(${conta.id})" data-id="${conta.id}" title="Excluir" class="btn-cadastro"><i class="fa-solid fa-trash"></i></button></td>`; // cria um HTML ja com os dados impressos
     listaContas.append(itemHtml); // constroe a lista html denovo, mas agora com o itemHtml dentro
   });
 }
@@ -151,19 +152,17 @@ function excluirConta(idConta) {
   }
 }
 
-function finalizarConta(idConta) {
-  let lists = contas.filter(x => {
-    return x.id != idConta;
-  })
-  contas = lists;
-  const contasJSON = JSON.stringify(lists);
-  localStorage.setItem('contas', contasJSON);
-  if (contas != '') {
-    renderizarHtml(contas);
-  } else {
-    secContas.style.display = "none"; //se não tiver dados no JSON ele dá display none na linha da tabela html
-  }
-}
+// function finalizarConta(idConta) {
+//   let lists = contas.filter(x => {
+//     console.log(x);
+//     debugger
+//     if(x.id == idConta){
+//       x.getStatusVencimento = 4
+//     }
+    
+//     return ;
+//   })
+// }
 
 // função para resetar os campos do formulario 
 function resetarCampos(formularioHTML) {

@@ -3,7 +3,8 @@ fetch('assets/json/usuarios.json')
     .then((resp) => resp.json())
     .then((dados => {
         localStorage.setItem('usuarios', JSON.stringify(dados));
-    }))
+    }));
+    
 class Usuario {
     constructor(usuario, nome,imagem, email, senha) {
         this.usuario = usuario
@@ -164,8 +165,14 @@ function login(emailUsuario, senhaUsuario) {
         };
     });
     usuarioLogado = loginCorresp ? JSON.stringify(loginCorresp) : '';
+
+    const pwarning = document.getElementById('warning');
+
     if (loginCorresp.length === 0) {
-        console.log('não existe');
+
+        setTimeout(() => {
+            pwarning.classList = "show";
+        }, 3000)
     } else {
         setTimeout(() => {
             loginPageHtml.style.display = 'none';

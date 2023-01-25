@@ -395,6 +395,16 @@ main form.form-login h3 {
 main form.form-login .form-group {
   width: 100%;
 }
+main form.form-login #warning {
+  font-size: 12px;
+  margin: 0 0 10px 0;
+  width: 100%;
+  display: none;
+  color: #e01e5a;
+}
+main form.form-login #warning.show {
+  display: block;
+}
 
 p#valor-total {
   padding: 20px;
