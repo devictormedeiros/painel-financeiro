@@ -427,4 +427,11 @@ p#valor-total {
     font-size: 14px;
     padding: 4px;
   }
+  .modal .modal-content {
+    max-width: 100%;
+    padding: 15px;
+  }
+  main nav {
+    height: 350px;
+  }
 }/*# sourceMappingURL=main.css.map */
