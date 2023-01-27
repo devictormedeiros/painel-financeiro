@@ -26,20 +26,18 @@ const avisoSucesso = Toastify({
 
 // criando a classe contas e seus atributos
 class Conta {
-  constructor(nome, valor, vencimento, taxa, data) {
+  constructor(nome, valor, vencimento, taxa, data, status) {
     this.id = id++;
     this.nome = nome
     this.valor = parseFloat(valor)
     this.taxa = parseFloat(taxa)
     this.dataAdd = data
     this.vencimento = vencimento
+    this.status = status ? status : this.statusVencimento()
+
   }
   get getValorJuros() {
     return this.taxaDeJuros();
-  }
-  get getStatusVencimento() {
-
-    return this.statusVencimento();
   }
   get getFormatarDataVencimento() {
 
@@ -72,7 +70,7 @@ class Conta {
     }
     return statusVencimento;
   }
-  calcularDiasVencimento(){
+  calcularDiasVencimento() {
     let dataValor = new Date(this.vencimento);
     let dataAtual = new Date();
     let diferencaData = dataValor.getTime() - dataAtual.getTime();
@@ -84,8 +82,7 @@ class Conta {
 // se tiver um JSON no localStorage 
 if ((contasGetJson != null) && (contasGetJson.length > 0)) {
   contasGetJson.forEach(conta => {
-
-    const classConta = new Conta(conta.nome, conta.valor, conta.vencimento, conta.taxa, dataAtual);
+    const classConta = new Conta(conta.nome, conta.valor, conta.vencimento, conta.taxa, dataAtual, conta.status);
     contas.push(classConta);
   });
   renderizarHtml(contas)
@@ -107,15 +104,15 @@ function ValorTotal(ArrContas) {
 
 // função pra renderizar o HTML 
 function renderizarHtml(arrayContas) {
-  
   arrayContas.sort(function (a, b) {
     return a.calcularDiasVencimento() - b.calcularDiasVencimento();
   });
+
   listaContas.innerHTML = ""; // limpa toda a lista para depois construir denovo
   secContas.style.display = "flex"; //se tiver dados no JSON ele dá display flex na linha da tabela html
   arrayContas.forEach(conta => {
     const itemHtml = document.createElement('tr'); // para cada conta, ele cria um <tr> na tabela html
-    let statusVencimento = conta.getStatusVencimento;
+    let statusVencimento =  conta.status;
     itemHtml.classList.add('status_' + statusVencimento);
     switch (statusVencimento) {
       case 0:
@@ -127,6 +124,9 @@ function renderizarHtml(arrayContas) {
       case 2:
         mensagemVencimento = 'Vencida';
         break;
+        case 4:
+          mensagemVencimento = 'Paga';
+          break;
       default:
         console.log('Ocorreu um erro');
     }
@@ -152,17 +152,18 @@ function excluirConta(idConta) {
   }
 }
 
-// function finalizarConta(idConta) {
-//   let lists = contas.filter(x => {
-//     console.log(x);
-//     debugger
-//     if(x.id == idConta){
-//       x.getStatusVencimento = 4
-//     }
-    
-//     return ;
-//   })
-// }
+function finalizarConta(idConta) {
+  contas.forEach(x => {
+    let idContaPaga = x.id;
+      if(idContaPaga == idConta){ 
+        x.status = 4;
+
+      }
+  });
+  let contasJSON = JSON.stringify(contas);
+  localStorage.setItem('contas', contasJSON);
+  renderizarHtml(contas);
+}
 
 // função para resetar os campos do formulario 
 function resetarCampos(formularioHTML) {
@@ -180,7 +181,8 @@ function enviarFormulario(e) {
   const taxaDeJuros = document.getElementById('taxaDeJuros');// pega o elemento do formulario
   const vencimentoContaByInput = document.getElementById('vencimentoConta'); // pega o elemento do formulario
   const vencimentoConta = new Date(vencimentoContaByInput.value) // pega o valor que veio do input de data e tranforma ela realmente numa data
-  const minhaConta = new Conta(nomeConta.value, valorConta.value, vencimentoConta, taxaDeJuros.value, dataAtual); // guardando a conta criada numa variavel minhaConta
+  var status;
+  const minhaConta = new Conta(nomeConta.value, valorConta.value, vencimentoConta, taxaDeJuros.value, dataAtual, status); // guardando a conta criada numa variavel minhaConta
 
   contas.push(minhaConta); // pega a nova conta criada "minhaConta" e adiciona ela no array contas
   const contasJSON = JSON.stringify(contas); // converte o array de contas para um JSON
@@ -220,7 +222,7 @@ validateForm
   .onSuccess((event) => {
     let modalCadastro = document.getElementById('modalCadastro');
     enviarFormulario(event); // aciona a função que trata o formulario
-    
+
     modalCadastro.classList.remove('open');
   });
 
