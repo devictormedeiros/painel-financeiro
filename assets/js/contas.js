@@ -4,7 +4,7 @@ var contas = []; //inicializando um array de contas vazio
 const contasGetJson = JSON.parse(localStorage.getItem('contas')); // pegando os dados JSON do localstorage
 const formularioConta = document.getElementById('form'); // guardando o formulário
 const listaContas = document.getElementById('listaContas'); // guardando o lista html
-const valorTotalHtml = document.getElementById('valor-total');// guardando o box de total de contas html
+const calcularValorTotalHtml = document.getElementById('valor-total');// guardando o box de total de contas html
 const secContas = document.getElementById('sec-contas'); // pega a div html "sec-contas"
 var id = 0; // começa com id = 0 para cada item ele somar +1
 const DateTime = luxon.DateTime; // start no Datetime
@@ -34,7 +34,6 @@ class Conta {
     this.dataAdd = data
     this.vencimento = vencimento
     this.status = status ? status : this.statusVencimento()
-
   }
   get getValorJuros() {
     return this.taxaDeJuros();
@@ -44,14 +43,14 @@ class Conta {
     return this.formatarDataVencimento();
   }
   taxaDeJuros() {
-    const valorJuros = (this.taxa * this.valor) / 100;
-    const valorFinalJuros = valorJuros + this.valor;
-    return valorFinalJuros
+    const valorJuros = (this.taxa / 100) * this.valor;
+    return valorJuros + this.valor;
   }
   formatarDataVencimento() {
-    let dataValor = new Date(this.vencimento);
-    let dataFormatada = dataValor.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
-    return dataFormatada;
+    return this.formatDate(this.vencimento);
+  }
+  formatDate(date) {
+    return new Date(date).toLocaleDateString("pt-BR", { timeZone: 'UTC' });
   }
   statusVencimento() {
     let dataValor = new Date(this.vencimento);
@@ -74,46 +73,42 @@ class Conta {
     let dataValor = new Date(this.vencimento);
     let dataAtual = new Date();
     let diferencaData = dataValor.getTime() - dataAtual.getTime();
-    let diferencaDiasFloat = diferencaData / (1000 * 3600 * 24);
-    return diferencaDiasFloat;
+    let diferencaDias = diferencaData / (1000 * 3600 * 24);
+    return diferencaDias;
   }
 }
 
 // se tiver um JSON no localStorage 
-if ((contasGetJson != null) && (contasGetJson.length > 0)) {
-  contasGetJson.forEach(conta => {
-    const classConta = new Conta(conta.nome, conta.valor, conta.vencimento, conta.taxa, dataAtual, conta.status);
-    contas.push(classConta);
-  });
-  renderizarHtml(contas)
-  ValorTotal(contas);
-} else {
-  secContas.style.display = "none"; //se não tiver dados no JSON ele dá display none na linha da tabela html
-}
+if (contasGetJson && contasGetJson.length) {
+  contas = contasGetJson.map(conta => new Conta(conta.nome, conta.valor, conta.vencimento, conta.taxa, dataAtual, conta.status));
+  renderizarHtml(contas);
+  calcularValorTotal(contas);
+  } else {
+  secContas.style.display = "none";
+  }
 
 
 // função pra trazer o valor total 
-function ValorTotal(ArrContas) {
-  let soma = 0;
-  for (i = 0; i < ArrContas.length; i++) {
-    soma += ArrContas[i].valor
-  }
-  valorTotalHtml.innerHTML = `R$ ${soma}`;
+function calcularValorTotal(arrContas) {
+let soma = 0;
+arrContas.forEach(conta => {
+soma += conta.valor;
+});
+calcularValorTotalHtml.innerHTML =`R$ ${soma.toFixed(2)}`;
 }
-
 
 // função pra renderizar o HTML 
 function renderizarHtml(arrayContas) {
-  arrayContas.sort(function (a, b) {
-    return a.calcularDiasVencimento() - b.calcularDiasVencimento();
-  });
+  const contasOrdenadas = arrayContas.sort((a, b) => a.calcularDiasVencimento() - b.calcularDiasVencimento());
+  listaContas.innerHTML = '';
+  secContas.style.display = 'flex';
 
-  listaContas.innerHTML = ""; // limpa toda a lista para depois construir denovo
-  secContas.style.display = "flex"; //se tiver dados no JSON ele dá display flex na linha da tabela html
-  arrayContas.forEach(conta => {
-    const itemHtml = document.createElement('tr'); // para cada conta, ele cria um <tr> na tabela html
-    let statusVencimento =  conta.status;
-    itemHtml.classList.add('status_' + statusVencimento);
+  contasOrdenadas.forEach(conta => {
+    const itemHTML = document.createElement('tr');
+    let statusVencimento = conta.status;
+    let mensagemVencimento = '';
+
+    itemHTML.classList.add(`status_${statusVencimento}`);
     switch (statusVencimento) {
       case 0:
         mensagemVencimento = 'Pendente';
@@ -124,14 +119,31 @@ function renderizarHtml(arrayContas) {
       case 2:
         mensagemVencimento = 'Vencida';
         break;
-        case 4:
-          mensagemVencimento = 'Paga';
-          break;
+      case 4:
+        mensagemVencimento = 'Paga';
+        break;
       default:
-        console.log('Ocorreu um erro');
+        console.error('Um erro encontrado');
     }
-    itemHtml.innerHTML = `<td> ${conta.nome}</td><td> R$${conta.valor} </td><td> ${conta.getFormatarDataVencimento} </td><td> ${conta.taxa}% </td><td> R$${conta.getValorJuros} </td><td class="${statusVencimento == 2 ? 'status-vencida' : ''}"> ${mensagemVencimento}</td><td><button class="btn-finalizar" title="Pagar" onClick="finalizarConta(${conta.id})" data-id="${conta.id}" class="btn-cadastro"><i class="fa-solid fa-check"></i></button><button class="btn-delete" onClick="finalizarConta(${conta.id})" data-id="${conta.id}" title="Excluir" class="btn-cadastro"><i class="fa-solid fa-trash"></i></button></td>`; // cria um HTML ja com os dados impressos
-    listaContas.append(itemHtml); // constroe a lista html denovo, mas agora com o itemHtml dentro
+
+    itemHTML.innerHTML = `
+      <td> ${conta.nome} </td>
+      <td> R$${conta.valor} </td>
+      <td> ${conta.getFormatarDataVencimento} </td>
+      <td> ${conta.taxa}% </td>
+      <td> R$${conta.getValorJuros} </td>
+      <td class="${statusVencimento === 2 ? 'status-vencida' : ''}"> ${mensagemVencimento} </td>
+      <td>
+        <button class="btn-finalizar" title="Pay" onClick="finalizarConta(${conta.id})" data-id="${conta.id}">
+          <i class="fa-solid fa-check"></i>
+        </button>
+        <button class="btn-delete" onClick="excluirConta(${conta.id})" data-id="${conta.id}" title="Delete">
+          <i class="fa-solid fa-trash"></i>
+        </button>
+      </td>
+    `;
+
+    listaContas.append(itemHTML);
   });
 }
 
@@ -139,89 +151,93 @@ function renderizarHtml(arrayContas) {
 
 // função que recebe o ID da conta e exclui a conta especifica (TRABALHANDO NELA AINDA)
 function excluirConta(idConta) {
-  let lists = contas.filter(x => {
-    return x.id != idConta;
-  })
-  contas = lists;
-  const contasJSON = JSON.stringify(lists);
-  localStorage.setItem('contas', contasJSON);
-  if (contas != '') {
-    renderizarHtml(contas);
-  } else {
-    secContas.style.display = "none"; //se não tiver dados no JSON ele dá display none na linha da tabela html
-  }
+  contas = contas.filter(conta => conta.id !== idConta);
+  localStorage.setItem('contas', JSON.stringify(contas));
+  contas.length ? renderizarHtml(contas) : secContas.style.display = 'none';
 }
 
-function finalizarConta(idConta) {
-  contas.forEach(x => {
-    let idContaPaga = x.id;
-      if(idContaPaga == idConta){ 
-        x.status = 4;
 
-      }
-  });
-  let contasJSON = JSON.stringify(contas);
-  localStorage.setItem('contas', contasJSON);
+function finalizarConta(idConta) {
+  let contaEncontrada = false;
+  // Percorre o array de contas procurando a conta com o id especificado
+  for (let conta of contas) {
+    if (conta.id === idConta) {
+      conta.status = 4;
+      contaEncontrada = true;
+      break;
+    }
+  }
+  // Verifica se a conta foi encontrada
+  if (!contaEncontrada) {
+    console.error(`Conta com id ${idConta} não encontrada.`);
+    return;
+  }
+  // Atualiza o armazenamento
+  localStorage.setItem('contas', JSON.stringify(contas));
+  // Renderiza o HTML
   renderizarHtml(contas);
 }
 
 // função para resetar os campos do formulario 
 function resetarCampos(formularioHTML) {
-  const todosCampos = formularioHTML.elements;
-  [...todosCampos].forEach((element) => {
-    element.value = "";
-  });
+  formularioHTML.reset();
 }
 
 // função usada sempre para cadastro de contas  
 function enviarFormulario(e) {
-  e.preventDefault(); // tira ação padrao do formulario
-  const nomeConta = document.getElementById('name');// pega o elemento do formulario
-  const valorConta = document.getElementById('valorConta');// pega o elemento do formulario
-  const taxaDeJuros = document.getElementById('taxaDeJuros');// pega o elemento do formulario
-  const vencimentoContaByInput = document.getElementById('vencimentoConta'); // pega o elemento do formulario
-  const vencimentoConta = new Date(vencimentoContaByInput.value) // pega o valor que veio do input de data e tranforma ela realmente numa data
-  var status;
-  const minhaConta = new Conta(nomeConta.value, valorConta.value, vencimentoConta, taxaDeJuros.value, dataAtual, status); // guardando a conta criada numa variavel minhaConta
+  e.preventDefault();
+  const nomeConta = document.getElementById('name');
+  const valorConta = document.getElementById('valorConta');
+  const taxaDeJuros = document.getElementById('taxaDeJuros');
+  const vencimentoContaByInput = document.getElementById('vencimentoConta');
+  const vencimentoConta = new Date(vencimentoContaByInput.value);
+  const status = null;
+  const minhaConta = new Conta(nomeConta.value, valorConta.value, vencimentoConta, taxaDeJuros.value, dataAtual, status);
 
-  contas.push(minhaConta); // pega a nova conta criada "minhaConta" e adiciona ela no array contas
-  const contasJSON = JSON.stringify(contas); // converte o array de contas para um JSON
-  localStorage.setItem('contas', contasJSON);  // adiciona o JSON numa key contas no localStorage
-  renderizarHtml(contas); // cria o html
-  ValorTotal(contas); // aciona a função para somar o total
-  resetarCampos(formularioConta); // chama a função para resetar os campos
-  avisoSucesso.showToast(); // solta o aviso toastify que configuramos lá em cima
+  contas.push(minhaConta);
+  localStorage.setItem('contas', JSON.stringify(contas));
+  renderizarHtml(contas);
+  calcularValorTotal(contas);
+  resetarCampos(formularioConta);
+  avisoSucesso.showToast();
 }
 
 validateForm
   .addField('#name', [
     {
       rule: 'required',
-      errorMessage: 'O campo não pode ficar vazio'
+      errorMessage: 'Nome é obrigatório'
     },
   ])
   .addField('#valorConta', [
     {
       rule: 'required',
-      errorMessage: 'O campo não pode ficar vazio'
+      errorMessage: 'Valor é obrigatório'
     },
-
+    {
+      rule: 'number',
+      errorMessage: 'Valor precisa ser numérico'
+    }
   ])
   .addField('#taxaDeJuros', [
     {
       rule: 'required',
-      errorMessage: 'O campo não pode ficar vazio'
+      errorMessage: 'Taxa de juros é obrigatória'
     },
+    {
+      rule: 'number',
+      errorMessage: 'Taxa de juros precisa ser numérico'
+    }
   ])
   .addField('#vencimentoConta', [
     {
       rule: 'required',
-      errorMessage: 'O campo não pode ficar vazio'
+      errorMessage: 'Vencimento é obrigatório'
     },
   ])
   .onSuccess((event) => {
     let modalCadastro = document.getElementById('modalCadastro');
-    enviarFormulario(event); // aciona a função que trata o formulario
+    enviarFormulario(event);
 
     modalCadastro.classList.remove('open');
   });

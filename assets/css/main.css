@@ -103,6 +103,10 @@ section {
   display: block;
 }
 
+iframe {
+  max-width: 100%;
+}
+
 body,
 html {
   line-height: 1;
@@ -243,6 +247,9 @@ main .page-app#login ul li button {
 main .page-app#login ul li button.active {
   border-bottom: 2px solid #36c5f0;
 }
+main .page-app#dashboard {
+  background-color: #202020;
+}
 main .page-app#dashboard .usuarioPainel {
   text-align: center;
   width: 100%;
@@ -318,26 +325,26 @@ main #sec-contas #tableContas {
 }
 main table {
   margin: 0px 0 40px;
+  background-color: #fff;
+  border-radius: 6px;
 }
 main table thead tr td {
   font-weight: 800;
   font-style: italic;
 }
-main table tr {
-  border-bottom: 1px solid #c1c1c1;
-}
 main table tr.status_2 {
-  background: rgba(224, 30, 90, 0.0941176471);
+  background: rgba(224, 30, 90, 0.1882352941);
 }
 main table tr.status_1 {
-  background: rgba(236, 178, 46, 0.0941176471);
+  background: rgba(236, 178, 46, 0.1882352941);
 }
 main table tr.status_4 {
-  background: rgba(46, 182, 125, 0.0941176471);
+  background: rgba(46, 182, 125, 0.1882352941);
 }
 main table tr td {
   padding: 10px;
   font-weight: 500;
+  border-bottom: 1px solid #c1c1c1;
 }
 main table tr td.status-vencida {
   color: #e01e5a;
@@ -408,6 +415,23 @@ main form.form-login #warning {
 main form.form-login #warning.show {
   display: block;
 }
+main .sec-videos {
+  padding: 40px 0;
+}
+main .sec-videos .lista-videos h3 {
+  color: #fff;
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+main .sec-videos .lista-videos h3 i {
+  margin-right: 10px;
+  color: #ecb22e;
+}
+main .sec-videos .lista-videos .video iframe {
+  width: 100%;
+  height: 250px;
+  border-radius: 8px;
+}
 
 p#valor-total {
   padding: 20px;
@@ -435,6 +459,13 @@ p#valor-total {
     padding: 15px;
   }
   main nav {
-    height: 350px;
+    height: auto;
+    padding: 12px;
+  }
+  main nav button.btn-sair {
+    position: inherit;
+    left: 0;
+    right: 0;
+    bottom: 0;
   }
 }/*# sourceMappingURL=main.css.map */

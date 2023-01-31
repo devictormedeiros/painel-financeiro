@@ -1,17 +1,27 @@
 
-fetch('assets/json/usuarios.json')
-    .then((resp) => resp.json())
-    .then((dados => {
+try {
+    if (typeof localStorage === 'undefined') {
+      throw new Error('localStorage não está disponível');
+    }
+    
+    fetch('assets/json/usuarios.json')
+      .then((resp) => resp.json())
+      .then((dados) => {
         localStorage.setItem('usuarios', JSON.stringify(dados));
-    }));
+      });
+  } catch (error) {
+    console.error(error);
+  }
     
 class Usuario {
     constructor(usuario, nome,imagem, email, senha) {
+        this.id = ++id
         this.usuario = usuario
         this.nomeUsuario = nome
         this.imagemUsuario = imagem
         this.emailUsuario = email
         this.senha = senha
+        
     }
 }
 var usuarios = [];
@@ -21,7 +31,7 @@ const loginPageHtml = document.getElementById('login');
 const dashboardPageHtml = document.getElementById('dashboard');
 
 const formularioLogin = document.getElementById('formLogin');
-const usuariosGetJson = JSON.parse(localStorage.getItem('usuarios'));
+const usuariosGetJson = JSON.parse(localStorage.getItem('usuarios')) || [];
 const cadastroUsuarioSucesso = Toastify({
     text: "Usuario cadastrado",
     duration: 2000,
@@ -36,26 +46,29 @@ const cadastroUsuarioSucesso = Toastify({
 
 const cadastroValidation = new JustValidate('#formCadastro');
 var usuarioLogado = localStorage.getItem('usuarioLogado', usuarioLogado) ? JSON.parse(localStorage.getItem('usuarioLogado', usuarioLogado)) : '';
-if (usuarioLogado.length > 0) {
-    loginPageHtml.style.display = 'none';
-    dashboardPageHtml.style.display = 'block';
-    const nomeUsuarioPainel = document.getElementById('usuarioNome');
-    const imagemUsuarioPainel = document.getElementById('usuarioImagem');
-    nomeUsuarioPainel.innerHTML = usuarioLogado[0].nomeUsuario;
-    if(usuarioLogado[0].imagemUsuario){
-        imagemUsuarioPainel.src = usuarioLogado[0].imagemUsuario
+function popularInfoUsuario(usuarioLogado){
+    if (usuarioLogado.length > 0) {
+        loginPageHtml.style.display = 'none';
+        dashboardPageHtml.style.display = 'block';
+        const nomeUsuarioPainel = document.getElementById('usuarioNome');
+        const imagemUsuarioPainel = document.getElementById('usuarioImagem');
+        nomeUsuarioPainel.innerHTML = usuarioLogado[0].nomeUsuario;
+        if(usuarioLogado[0].imagemUsuario){
+            imagemUsuarioPainel.src = usuarioLogado[0].imagemUsuario
+        }
     }
 }
+popularInfoUsuario(usuarioLogado);
+
+
 
 
 
 // se tiver um JSON no localStorage 
-if (usuariosGetJson != '') {
-    usuariosGetJson.forEach(usuario => {
-        const classUsuario = new Usuario(usuario.usuario, usuario.nomeUsuario, usuario.emailUsuario, usuario.senha);
-        usuarios.push(classUsuario);
-    });
-}
+usuariosGetJson.forEach(usuario => {
+    const classUsuario = new Usuario(usuario.usuario, usuario.nomeUsuario,usuario.imagemUsuario, usuario.emailUsuario, usuario.senha);
+    usuarios.push(classUsuario);
+});
 
 
 cadastroValidation
@@ -116,33 +129,37 @@ cadastroValidation
 
 // função para resetar os campos do formulario 
 function resetarCampos(formularioHTML) {
-    const todosCampos = formularioHTML.elements;
-    [...todosCampos].forEach((element) => {
-        element.value = "";
-    });
+    formularioHTML.reset();
 }
 
 function cadastrarUsuario() {
-    const nomeUsuario = document.getElementById('nomeCadastro');
-    const usuarioCadastro = document.getElementById('usuarioCadastro');
-    const senhaUsuarioCadastro = document.getElementById('senhaUsuarioCadastro');
-    const emailUsuarioCadastro = document.getElementById('emailUsuarioCadastro');
-    const imagemUsuarioCadastro = document.getElementById('imagemUsuarioCadastro');
-    const novoUsuario = new Usuario(usuarioCadastro.value, nomeUsuario.value,imagemUsuarioCadastro.value, emailUsuarioCadastro.value, senhaUsuarioCadastro.value)
-    // validarExistenciaEmail(emailUsuarioCadastro.value);
-    let lists = usuarios.filter(x => {
-        return x.emailUsuario === emailUsuarioCadastro.value;
-    })
-    if (lists.length === 0) {
-        usuarios.push(novoUsuario);
-        const usuariosJSON = JSON.stringify(usuarios);
-        localStorage.setItem('usuarios', usuariosJSON);
-        resetarCampos(formularioCadastro);  
-        cadastroUsuarioSucesso.showToast();
+    const nomeUsuario = document.getElementById("nomeCadastro");
+    const usuarioCadastro = document.getElementById("usuarioCadastro");
+    const senhaUsuarioCadastro = document.getElementById("senhaUsuarioCadastro");
+    const emailUsuarioCadastro = document.getElementById("emailUsuarioCadastro");
+    const imagemUsuarioCadastro = document.getElementById("imagemUsuarioCadastro");
+  
+    const novoUsuario = new Usuario(
+      usuarioCadastro.value,
+      nomeUsuario.value,
+      imagemUsuarioCadastro.value,
+      emailUsuarioCadastro.value,
+      senhaUsuarioCadastro.value
+    );
+  
+    // Verifica se já existe um usuário com o email informado
+    if (!usuarios.some(usuario => usuario.emailUsuario === emailUsuarioCadastro.value)) {
+      usuarios.push(novoUsuario);
+      const usuariosJSON = JSON.stringify(usuarios);
+
+      localStorage.setItem("usuarios", usuariosJSON);
+      resetarCampos(formularioCadastro);
+      cadastroUsuarioSucesso.showToast();
     } else {
-        emailUsuarioCadastro.value = '';
+      emailUsuarioCadastro.value = "";
+      // Considera adicionar uma mensagem de erro para o usuário.
     }
-}
+  }
 
 
 formularioLogin.addEventListener('submit', (e) => {
@@ -177,7 +194,9 @@ function login(emailUsuario, senhaUsuario) {
         setTimeout(() => {
             loginPageHtml.style.display = 'none';
             dashboardPageHtml.style.display = 'block';
+        
             localStorage.setItem('usuarioLogado', usuarioLogado);
+            popularInfoUsuario(loginCorresp);
         }, 3000)
     }
 }
