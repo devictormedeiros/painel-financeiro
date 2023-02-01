@@ -218,6 +218,29 @@ main .page-app#login {
   display: block;
   margin: 100px auto;
 }
+main .page-app#login .box-info {
+  padding: 20px;
+  border-radius: 10px;
+  border: 1px solid;
+  margin-bottom: 30px;
+}
+main .page-app#login .box-info h2 {
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+main .page-app#login .box-info p {
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+main .page-app#login .box-info p span {
+  color: #e01e5a;
+  font-size: 13px;
+  display: block;
+  font-weight: 500;
+  font-style: italic;
+  margin-top: 10px;
+}
 main .page-app#login form {
   margin: 10px auto;
   width: 100%;
