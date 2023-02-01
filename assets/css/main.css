@@ -208,6 +208,29 @@ form .spinner-loading img {
   display: block;
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #c1c1c1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #e01e5a;
+  opacity: 0.5;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #2eb67d;
+  opacity: 1;
+}
+
 main {
   width: 100%;
 }
