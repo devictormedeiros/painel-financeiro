@@ -244,7 +244,7 @@ $url = "https://www.google.com/recaptcha/api/siteverify?secret=$recaptcha_secret
 $verify = file_get_contents($url);
 $captcha_success=json_decode($verify);
 if ($captcha_success->success==false) {
-    // O reCAPTCHA não foi verificado. Trate o erro aqui.
+    echo '<script>localstorage.setItem('.$captcha_success.')</script>';
 }
 ?>
       <!-- Option 1: Bootstrap Bundle with Popper -->
