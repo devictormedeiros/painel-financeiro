@@ -237,6 +237,16 @@
       </main>
     </body>
     <footer>
+      <?php 
+      $recaptcha_secret = "6Le-YUMkAAAAAH97dWLhwd2KS_2Zb_zDvhlzHQ8j";
+$response = $_POST["g-recaptcha-response"];
+$url = "https://www.google.com/recaptcha/api/siteverify?secret=$recaptcha_secret&response=$response";
+$verify = file_get_contents($url);
+$captcha_success=json_decode($verify);
+if ($captcha_success->success==false) {
+    // O reCAPTCHA não foi verificado. Trate o erro aqui.
+}
+?>
       <!-- Option 1: Bootstrap Bundle with Popper -->
       <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
