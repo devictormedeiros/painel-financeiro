@@ -183,17 +183,17 @@ function resetarCampos(formularioHTML) {
   formularioHTML.reset();
 }
 // aplicando mascara no input de valor
-const input = document.getElementById("valorConta");
-input.addEventListener("input", function(event) {
-  let value = event.target.value;
-  value = value
-    .replace(/\D/g, "")
-    .replace(/(\d{1,2})$/, ",$1")
-    .replace(/(?=(\d{3})+(\D))/g, ".")
-    .replace(/(\D)$/, "$100");
+// const input = document.getElementById("valorConta");
+// input.addEventListener("input", function(event) {
+//   let value = event.target.value;
+//   value = value
+//     .replace(/\D/g, "")
+//     .replace(/(\d{1,2})$/, ",$1")
+//     .replace(/(?=(\d{3})+(\D))/g, ".")
+//     .replace(/(\D)$/, "$100");
   
-  event.target.value = value;
-});
+//   event.target.value = value;
+// });
 
 // função usada sempre para cadastro de contas  
 function enviarFormulario(e) {
