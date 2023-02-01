@@ -182,6 +182,18 @@ function finalizarConta(idConta) {
 function resetarCampos(formularioHTML) {
   formularioHTML.reset();
 }
+// aplicando mascara no input de valor
+const input = document.getElementById("valorConta");
+input.addEventListener("input", function(event) {
+  let value = event.target.value;
+  value = value
+    .replace(/\D/g, "")
+    .replace(/(\d{1,2})$/, ",$1")
+    .replace(/(?=(\d{3})+(\D))/g, ".")
+    .replace(/(\D)$/, "$100");
+  
+  event.target.value = value;
+});
 
 // função usada sempre para cadastro de contas  
 function enviarFormulario(e) {
@@ -190,6 +202,7 @@ function enviarFormulario(e) {
   const valorConta = document.getElementById('valorConta');
   const taxaDeJuros = document.getElementById('taxaDeJuros');
   const vencimentoContaByInput = document.getElementById('vencimentoConta');
+  
   const vencimentoConta = new Date(vencimentoContaByInput.value);
   const status = null;
   const minhaConta = new Conta(nomeConta.value, valorConta.value, vencimentoConta, taxaDeJuros.value, dataAtual, status);
@@ -214,10 +227,7 @@ validateForm
       rule: 'required',
       errorMessage: 'Valor é obrigatório'
     },
-    {
-      rule: 'number',
-      errorMessage: 'Valor precisa ser numérico'
-    }
+
   ])
   .addField('#taxaDeJuros', [
     {
@@ -241,5 +251,6 @@ validateForm
 
     modalCadastro.classList.remove('open');
   });
+
 
 
