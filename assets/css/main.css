@@ -252,8 +252,27 @@ main .page-app#dashboard {
 }
 main .page-app#dashboard .top-bar {
   width: 100%;
-  padding: 20px 0;
+  padding: 20px;
+  padding-left: 40px;
   background-color: #000;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+main .page-app#dashboard .top-bar a {
+  color: #fff;
+  display: inline-block;
+  margin-left: 0;
+  margin-right: 15px;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+main .page-app#dashboard .top-bar a i {
+  margin-right: 4px;
+}
+main .page-app#dashboard .top-bar a:hover {
+  color: #ecb22e;
 }
 main .page-app#dashboard .usuarioPainel {
   text-align: center;
@@ -319,6 +338,17 @@ main .menu-lateral nav ul li a {
 }
 main .menu-lateral nav ul li a:hover {
   color: #fff;
+}
+main .menu-lateral #listaSocial {
+  margin-top: 40px;
+  display: none;
+}
+main .menu-lateral #listaSocial li {
+  padding: 5px 10px;
+}
+main .menu-lateral #listaSocial li a {
+  font-size: 15px;
+  margin-bottom: 0;
 }
 main #sec-contas {
   display: none;
@@ -471,9 +501,23 @@ p#valor-total {
     max-width: 100%;
     padding: 15px;
   }
+  main .page-app#dashboard .top-bar {
+    display: none;
+  }
   main .menu-lateral {
     height: auto;
     padding: 12px;
+    margin-bottom: 50px;
+  }
+  main .menu-lateral #listaSocial {
+    display: block;
+  }
+  main .menu-lateral #listaSocial li {
+    padding-left: 0;
+    padding-bottom: 10px;
+  }
+  main .menu-lateral #listaSocial li a {
+    font-size: 16px;
   }
   main .menu-lateral h1 {
     font-size: 16px;

@@ -52,15 +52,3 @@ hamburguer.addEventListener('click', () => {
   menuNavegacao.classList.toggle('show');
 });
 
-// btnPainel.forEach(el =>
-//     el.addEventListener('click', event => {
-//         event.preventDefault();
-//         let dataPainel = event.target.dataset.page;
-//         painelSec.forEach((element) => {
-//             element.classList.remove('active');
-//           });
-//         document.getElementById(dataPainel).classList.add('active')
-//     })
-// )
-
-// closeModal.addEventListener
