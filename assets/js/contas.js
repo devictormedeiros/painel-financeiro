@@ -59,13 +59,13 @@ class Conta {
     let diferencaDiasFloat = diferencaData / (1000 * 3600 * 24);
     let statusVencimento = 0
     if (diferencaDiasFloat < (-1)) {
-      statusVencimento = 2 // vencida
+      statusVencimento = 1 // vencida
     }
     else if (diferencaDiasFloat < 0) {
-      statusVencimento = 1 // vence hoje
+      statusVencimento = 2 // vence hoje
     }
     else if (diferencaDiasFloat > 0) {
-      statusVencimento = 0 // pendente
+      statusVencimento = 3 // pendente
     }
     return statusVencimento;
   }
@@ -99,7 +99,7 @@ calcularValorTotalHtml.innerHTML =`R$ ${soma.toFixed(2)}`;
 
 // função pra renderizar o HTML 
 function renderizarHtml(arrayContas) {
-  const contasOrdenadas = arrayContas.sort((a, b) => a.calcularDiasVencimento() - b.calcularDiasVencimento());
+  const contasOrdenadas = arrayContas.sort((a, b) => a.status - b.status);
   listaContas.innerHTML = '';
   secContas.style.display = 'flex';
 
@@ -110,18 +110,18 @@ function renderizarHtml(arrayContas) {
 
     itemHTML.classList.add(`status_${statusVencimento}`);
     switch (statusVencimento) {
-      case 0:
-        mensagemVencimento = 'Pendente';
-        break;
       case 1:
-        mensagemVencimento = 'Vence Hoje';
-        break;
-      case 2:
         mensagemVencimento = 'Vencida';
         break;
-      case 4:
-        mensagemVencimento = 'Paga';
+      case 2:
+        mensagemVencimento = 'Vence Hoje';
         break;
+      case 3:
+        mensagemVencimento = 'Pendente';
+        break;
+        case 4:
+          mensagemVencimento = 'Paga';
+          break;
       default:
         console.error('Um erro encontrado');
     }
@@ -132,9 +132,9 @@ function renderizarHtml(arrayContas) {
       <td> ${conta.getFormatarDataVencimento} </td>
       <td> ${conta.taxa}% </td>
       <td> R$${conta.getValorJuros} </td>
-      <td class="${statusVencimento === 2 ? 'status-vencida' : ''}"> ${mensagemVencimento} </td>
+      <td class="${statusVencimento === 1 ? 'status-vencida' : ''}"> ${mensagemVencimento} </td>
       <td>
-        <button class="btn-finalizar" title="Pay" onClick="finalizarConta(${conta.id})" data-id="${conta.id}">
+        <button class="btn-finalizar" title="Pagar" onClick="finalizarConta(${conta.id})" data-id="${conta.id}">
           <i class="fa-solid fa-check"></i>
         </button>
         <button class="btn-delete" onClick="excluirConta(${conta.id})" data-id="${conta.id}" title="Delete">

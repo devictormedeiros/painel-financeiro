@@ -188,7 +188,7 @@ a {
 }
 
 .painel {
-  width: 75%;
+  width: 100%;
   padding: 40px;
 }
 
@@ -250,6 +250,11 @@ main .page-app#login ul li button.active {
 main .page-app#dashboard {
   background-color: #202020;
 }
+main .page-app#dashboard .top-bar {
+  width: 100%;
+  padding: 20px 0;
+  background-color: #000;
+}
 main .page-app#dashboard .usuarioPainel {
   text-align: center;
   width: 100%;
@@ -267,13 +272,24 @@ main .page-app#dashboard .usuarioPainel p {
 main .page-app form input {
   margin-bottom: 10px;
 }
-main nav {
+main .menu-lateral {
   height: 100vh;
   background: #e01e5a;
   padding: 40px 10px 10px;
   position: relative;
 }
-main nav button.btn-sair {
+main .menu-lateral h1 {
+  color: #fff;
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid #fff;
+}
+main .menu-lateral nav button.btn-sair {
   position: absolute;
   bottom: 15px;
   left: 15px;
@@ -287,24 +303,13 @@ main nav button.btn-sair {
   font-size: 11px;
   border-radius: 6px;
 }
-main nav button.btn-sair i {
+main .menu-lateral nav button.btn-sair i {
   padding-right: 10px;
 }
-main nav h1 {
-  color: #fff;
-  font-size: 20px;
-  text-transform: uppercase;
-  font-weight: 600;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-  width: 100%;
-  text-align: center;
-  border-bottom: 1px solid #fff;
-}
-main nav ul li {
+main .menu-lateral nav ul li {
   padding: 10px;
 }
-main nav ul li a {
+main .menu-lateral nav ul li a {
   color: #fff;
   font-size: 20px;
   display: flex;
@@ -312,7 +317,7 @@ main nav ul li a {
   align-items: center;
   gap: 10px;
 }
-main nav ul li a:hover {
+main .menu-lateral nav ul li a:hover {
   color: #fff;
 }
 main #sec-contas {
@@ -332,14 +337,17 @@ main table thead tr td {
   font-weight: 800;
   font-style: italic;
 }
-main table tr.status_2 {
+main table tr.status_1 {
   background: rgba(224, 30, 90, 0.1882352941);
 }
-main table tr.status_1 {
+main table tr.status_2 {
   background: rgba(236, 178, 46, 0.1882352941);
 }
 main table tr.status_4 {
   background: rgba(46, 182, 125, 0.1882352941);
+}
+main table tr.status_4 .btn-finalizar {
+  visibility: hidden;
 }
 main table tr td {
   padding: 10px;
@@ -422,6 +430,7 @@ main .sec-videos .lista-videos h3 {
   color: #fff;
   font-size: 22px;
   margin-bottom: 20px;
+  text-transform: uppercase;
 }
 main .sec-videos .lista-videos h3 i {
   margin-right: 10px;
@@ -442,30 +451,98 @@ p#valor-total {
   width: fit-content;
 }
 
+.hamburguer {
+  display: none;
+}
+
 @media screen and (max-width: 600px) {
   main #sec-contas {
     overflow-x: scroll;
   }
-  .painel {
+  main .painel {
     width: 100%;
-    padding: 15px;
+    padding: 0px;
   }
   main table thead tr td {
     font-size: 14px;
     padding: 4px;
   }
-  .modal .modal-content {
+  main .modal .modal-content {
     max-width: 100%;
     padding: 15px;
   }
-  main nav {
+  main .menu-lateral {
     height: auto;
     padding: 12px;
   }
-  main nav button.btn-sair {
+  main .menu-lateral h1 {
+    font-size: 16px;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    text-align: left;
+    margin-bottom: 0;
+    border: none;
+    padding-bottom: 0;
+  }
+  main .menu-lateral nav {
+    display: none;
+    transition: all 0.3s ease-in-out;
+  }
+  main .menu-lateral nav.show {
+    display: block;
+  }
+  main .menu-lateral nav button.btn-sair {
     position: inherit;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    display: block;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    margin-left: auto;
+  }
+  main .menu-lateral nav ul li {
+    padding: 0;
+  }
+  main .page-app#dashboard .usuarioPainel img {
+    width: 60px;
+    height: 60px;
+    border-radius: 100%;
+  }
+  main .sec-videos .lista-videos h3 {
+    color: #fff;
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  main .sec-videos .lista-videos .video iframe {
+    margin-bottom: 20px;
+  }
+  main .hamburguer {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    display: block;
+    cursor: pointer;
+  }
+  main .hamburguer .line {
+    width: 30px;
+    height: 2px;
+    background-color: #fff;
+    margin: 5px;
+    transition: all 0.3s ease-in-out;
+  }
+  main .hamburguer.change .line:first-child {
+    transform: rotate(-45deg) translate(-5px, 6px);
+  }
+  main .hamburguer.change .line:nth-child(2) {
+    opacity: 0;
+  }
+  main .hamburguer.change .line:last-child {
+    transform: rotate(45deg) translate(-5px, -6px);
+  }
+  main #nav-lateral.show {
+    display: block;
+  }
+  main .page-app#dashboard .usuarioPainel {
+    margin-top: 20px;
   }
 }/*# sourceMappingURL=main.css.map */

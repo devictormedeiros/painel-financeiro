@@ -44,6 +44,13 @@ closeModal.addEventListener('click', event => {
 
 })
 
+const hamburguer = document.querySelector('.hamburguer');
+const menuNavegacao = document.querySelector('#nav-lateral');
+
+hamburguer.addEventListener('click', () => {
+  hamburguer.classList.toggle('change');
+  menuNavegacao.classList.toggle('show');
+});
 
 // btnPainel.forEach(el =>
 //     el.addEventListener('click', event => {

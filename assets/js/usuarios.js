@@ -46,6 +46,7 @@ const cadastroUsuarioSucesso = Toastify({
 
 const cadastroValidation = new JustValidate('#formCadastro');
 var usuarioLogado = localStorage.getItem('usuarioLogado', usuarioLogado) ? JSON.parse(localStorage.getItem('usuarioLogado', usuarioLogado)) : '';
+
 function popularInfoUsuario(usuarioLogado){
     if (usuarioLogado.length > 0) {
         loginPageHtml.style.display = 'none';
