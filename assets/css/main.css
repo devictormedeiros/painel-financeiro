@@ -224,6 +224,28 @@ main .page-app#login .box-info {
   border: 1px solid;
   margin-bottom: 30px;
 }
+main .page-app#login .box-info ul {
+  display: block;
+  padding: 20px 0;
+}
+main .page-app#login .box-info ul li {
+  width: 100%;
+  margin-bottom: 5px;
+  font-size: 15px;
+}
+main .page-app#login .box-info ul li i {
+  margin-right: 5px;
+  width: 18px;
+  text-align: center;
+}
+main .page-app#login .box-info ul li b {
+  font-weight: 600;
+  margin-right: 5px;
+}
+main .page-app#login .box-info ul li a {
+  color: #2eb67d;
+  font-weight: 600;
+}
 main .page-app#login .box-info h2 {
   font-weight: 600;
   font-size: 18px;
@@ -231,7 +253,7 @@ main .page-app#login .box-info h2 {
 }
 main .page-app#login .box-info p {
   font-size: 15px;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 main .page-app#login .box-info p span {
   color: #e01e5a;
